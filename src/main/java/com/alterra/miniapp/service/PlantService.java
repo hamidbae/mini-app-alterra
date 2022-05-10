@@ -107,6 +107,15 @@ public class PlantService {
 
         plantRepository.save(plant.get());
 
-        return Response.build(Response.update("plant"), plant, null, HttpStatus.CREATED);
+        PlantDto plantDto = PlantDto.builder()
+                .id(plant.get().getId())
+                .name(plant.get().getName())
+                .speciesName(plant.get().getSpeciesName())
+                .content(plant.get().getContent())
+                .createdAt(plant.get().getCreatedAt())
+                .updatedAt(plant.get().getUpdatedAt())
+                .build();
+
+        return Response.build(Response.update("plant"), plantDto, null, HttpStatus.CREATED);
     }
 }

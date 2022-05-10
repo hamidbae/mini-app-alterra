@@ -2,7 +2,6 @@ package com.alterra.miniapp.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 

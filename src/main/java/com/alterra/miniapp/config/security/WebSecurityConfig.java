@@ -65,8 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/v1/users").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/v1/users").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/v1/users/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/v1/plants/**").permitAll()
-                .antMatchers("/v1/plants/**").hasAuthority("ADMIN")
+                .antMatchers( "/v1/plants/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

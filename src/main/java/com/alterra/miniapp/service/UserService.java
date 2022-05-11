@@ -84,6 +84,7 @@ public class UserService {
                 .id(user.getId())
                 .name(user.getName())
                 .username(user.getUsername())
+                .createdAt(user.getCreatedAt())
                 .build();
 
         Set<String> roleDto = new HashSet<>();
@@ -165,6 +166,8 @@ public class UserService {
                 .id(user.get().getId())
                 .name(user.get().getName())
                 .username(user.get().getUsername())
+                .createdAt(user.get().getCreatedAt())
+                .updatedAt(user.get().getUpdatedAt())
                 .build();
 
         Set<String> roleDto = new HashSet<>();

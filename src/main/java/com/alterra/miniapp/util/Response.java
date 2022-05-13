@@ -1,7 +1,5 @@
 package com.alterra.miniapp.util;
 
-
-import com.alterra.miniapp.constant.AppConstant.*;
 import com.alterra.miniapp.domain.common.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

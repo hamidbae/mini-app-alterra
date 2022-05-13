@@ -96,6 +96,10 @@
 						<exclude>**/controller/*.class</exclude>
 						<exclude>**/domain/**/*.class</exclude>
 						<exclude>**/repository/*.class</exclude>
+						<exclude>**/service/CustomUserDetails.class</exclude>
+						<exclude>**/service/CustomUserDetailsService.class</exclude>
+						<exclude>**/config/**</exclude>
+						<exclude>**/util/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>

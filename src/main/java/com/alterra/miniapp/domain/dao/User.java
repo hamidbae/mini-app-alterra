@@ -1,24 +1,27 @@
 package com.alterra.miniapp.domain.dao;
 
+import com.alterra.miniapp.domain.common.BaseCreatedAt;
+import com.alterra.miniapp.domain.common.BaseIsDeleted;
+import com.alterra.miniapp.domain.common.BaseUpdatedAt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Builder
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username")
-        })
+@SuperBuilder
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
+public class User extends BaseIsDeleted {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

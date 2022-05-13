@@ -2,6 +2,7 @@ package com.alterra.miniapp.domain.dao;
 
 
 import com.alterra.miniapp.domain.common.BaseTimestamp;
+import com.alterra.miniapp.domain.common.BaseUpdatedAt;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @Table(name = "plants")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Plant extends BaseTimestamp {
+public class Plant extends BaseUpdatedAt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

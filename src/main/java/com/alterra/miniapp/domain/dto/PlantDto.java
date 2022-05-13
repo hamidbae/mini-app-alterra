@@ -1,13 +1,13 @@
 package com.alterra.miniapp.domain.dto;
 
-import com.alterra.miniapp.domain.common.BaseCreatedAt;
-import com.alterra.miniapp.domain.common.BaseIsDeleted;
+import com.alterra.miniapp.domain.common.BaseTimestamp;
 import com.alterra.miniapp.domain.common.BaseUpdatedAt;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -15,10 +15,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDto extends BaseIsDeleted {
+public class PlantDto extends BaseUpdatedAt {
     private Long id;
-    private String username;
-    private String password;
     private String name;
-    private Set<String> roles;
+    private String speciesName;
+    private String content;
 }

@@ -41,7 +41,7 @@ public class CommentService {
         }
 
         Comment comment = Comment.builder()
-                .id(requestBody.getId())
+//                .id(requestBody.getId())
                 .plant(plant.get())
                 .user(user.get())
                 .text(requestBody.getText())

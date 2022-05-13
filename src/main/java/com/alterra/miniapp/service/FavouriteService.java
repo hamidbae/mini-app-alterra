@@ -81,6 +81,6 @@ public class FavouriteService {
 
         favouriteRepository.deleteById(id);
 
-        return Response.build(Response.delete("favourites"), null, null, HttpStatus.CREATED);
+        return Response.build(Response.delete("favourite"), null, null, HttpStatus.CREATED);
     }
 }

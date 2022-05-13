@@ -2,7 +2,7 @@ package com.alterra.miniapp.config.security;
 
 import com.alterra.miniapp.config.security.jwt.AuthEntryPointJwt;
 import com.alterra.miniapp.config.security.jwt.AuthTokenFilter;
-import com.alterra.miniapp.service.UserDetailsServiceImpl;
+import com.alterra.miniapp.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.alterra.miniapp.domain.dao.ERole.*;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -29,7 +27,7 @@ import static com.alterra.miniapp.domain.dao.ERole.*;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    CustomUserDetailsService userDetailsService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;

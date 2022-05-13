@@ -1,7 +1,7 @@
 package com.alterra.miniapp.config.security.jwt;
 
 
-import com.alterra.miniapp.service.UserDetailsImpl;
+import com.alterra.miniapp.service.CustomUserDetails;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
 
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))

@@ -1,4 +1,4 @@
-name: Spring Boot Hello World Pipeline
+name: Plant Kingdom Pipeline
 
 on:
   push:
@@ -85,4 +85,4 @@ jobs:
             docker pull hamidbae/mini-app-alterra:latest
             docker pull hamidbae/mini-app-alterra-coverage:latest
             docker run -d --rm --name mini-app-coverage -p 8000:80 hamidbae/mini-app-alterra-coverage:latest
-            docker run -d --rm --name mini-app -p 80:8080 --env-file=.dev.env --network kampus-merdeka hamidbae/mini-app-alterra:latest
+            docker run -d --rm --name mini-app -p 80:8080 --env ${{ secrets.JWT_SECRET }} --env ${{ secrets.JWT_EXPIRATION }} --env-file=.dev.env --network kampus-merdeka hamidbae/mini-app-alterra:latest

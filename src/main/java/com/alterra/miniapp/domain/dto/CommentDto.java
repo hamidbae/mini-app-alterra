@@ -2,21 +2,18 @@ package com.alterra.miniapp.domain.dto;
 
 import com.alterra.miniapp.domain.common.BaseTimestamp;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PlantDto extends BaseTimestamp {
+public class CommentDto extends BaseTimestamp {
     private Long id;
-    private String name;
-    private String speciesName;
-    private String content;
+    private UserDto user;
+    private PlantDto plant;
+    private String text;
 }

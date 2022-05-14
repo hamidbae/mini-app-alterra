@@ -101,6 +101,8 @@ public class UserService {
 
         Optional<User> user = userRepository.findByUsername(userDto.getUsername());
         Boolean isPasswordCorrect = encoder.matches(userDto.getPassword(), user.get().getPassword());
+        log.info(userDto.getPassword());
+        log.info(user.get().getPassword());
         if (Boolean.FALSE.equals(isPasswordCorrect)) {
             return Response.build("username or password incorrect", null, null, HttpStatus.BAD_REQUEST);
         }

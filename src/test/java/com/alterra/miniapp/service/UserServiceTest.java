@@ -1,5 +1,6 @@
 package com.alterra.miniapp.service;
 
+import com.alterra.miniapp.config.CustomAuthentication;
 import com.alterra.miniapp.config.security.jwt.JwtUtils;
 import com.alterra.miniapp.domain.common.ApiResponse;
 import com.alterra.miniapp.domain.dao.ERole;
@@ -33,6 +34,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.*;
+
+import static org.mockito.ArgumentMatchers.any;
 
 
 @ExtendWith(SpringExtension.class)
@@ -113,37 +116,37 @@ class UserServiceTest {
         Assertions.assertEquals(String.format("user with username %s exist", userDto.getUsername()), apiResponse.getMessage());
     }
 
-//    @Test
-//    void loginUserSuccess_Test(){
-//
-//        Role userRole = Role.builder().id(1L).name(ERole.USER).build();
-//        Role adminRole = Role.builder().id(1L).name(ERole.ADMIN).build();
-//
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(userRole);
-//        roles.add(adminRole);
-//        User user = User.builder().id(1L).username("hamidb").name("Hamid").password(encoder.encode("password")).roles(roles).build();
-//        log.info(encoder.encode("password"));
-//        UserDto userDto = UserDto.builder().username("hamidb").password("password").build();
-//
-//        Mockito.when(userRepository.existsByUsername(userDto.getUsername())).thenReturn(true);
-//        Mockito.when(userRepository.findByUsername(userDto.getUsername())).thenReturn(Optional.ofNullable(user));
-//
-//        Boolean isPasswordCorrect = encoder.matches(userDto.getPassword(), user.getPassword());
-//        log.info(isPasswordCorrect.toString());
-//
-//        ResponseEntity<Object> response = userService.loginUser(userDto);
-//
-//        ApiResponse apiResponse = (ApiResponse) response.getBody();
-//        log.info(apiResponse.getCode());
-//        log.info(apiResponse.getMessage());
-//
-//        Map<String, String> data = (Map<String, String>) Objects.requireNonNull(apiResponse).getData();
-//        data.forEach((el1, el2) -> {
-//            Assertions.assertNotNull(el1);
-//            Assertions.assertNotNull(el2);
-//        });
-//    }
+    @Test
+    void loginUserSuccess_Test(){
+
+        Role userRole = Role.builder().id(1L).name(ERole.USER).build();
+        Role adminRole = Role.builder().id(1L).name(ERole.ADMIN).build();
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(userRole);
+        roles.add(adminRole);
+        User user = User.builder().id(1L).username("hamidb").name("Hamid").password(encoder.encode("password")).roles(roles).build();
+        log.info(encoder.encode("password"));
+        UserDto userDto = UserDto.builder().username("hamidb").password("password").build();
+
+        Mockito.when(userRepository.existsByUsername(userDto.getUsername())).thenReturn(true);
+        Mockito.when(userRepository.findByUsername(userDto.getUsername())).thenReturn(Optional.ofNullable(user));
+        Mockito.when(encoder.matches(any(), any())).thenReturn(true);
+        Mockito.when(authenticationManager.authenticate(any())).thenReturn(new CustomAuthentication());
+        Mockito.when(jwtUtils.generateJwtToken(any())).thenReturn("token");
+
+        ResponseEntity<Object> response = userService.loginUser(userDto);
+
+        ApiResponse apiResponse = (ApiResponse) response.getBody();
+        log.info(apiResponse.getCode());
+        log.info(apiResponse.getMessage());
+
+        Map<String, String> data = (Map<String, String>) Objects.requireNonNull(apiResponse).getData();
+        data.forEach((el1, el2) -> {
+            Assertions.assertNotNull(el1);
+            Assertions.assertNotNull(el2);
+        });
+    }
 
     @Test
     void updateUserSuccess_Test(){

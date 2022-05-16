@@ -48,4 +48,9 @@ public class PlantController {
     public ResponseEntity<Object> getAllDetail() {
         return plantService.getPlantsDetail();
     }
+
+    @GetMapping("/plants/search/{keyword}")
+    public ResponseEntity<Object> getAllDetail(@PathVariable String keyword) {
+        return plantService.searchPlants(keyword);
+    }
 }

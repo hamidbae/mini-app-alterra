@@ -31,8 +31,8 @@ public class Comment extends BaseTimestamp {
 
     @JsonIgnore
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "plant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Plant plant;
 
     @Column

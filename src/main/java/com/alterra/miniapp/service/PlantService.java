@@ -1,19 +1,22 @@
 package com.alterra.miniapp.service;
 
 import com.alterra.miniapp.domain.dao.Plant;
+import com.alterra.miniapp.domain.dto.CommentDto;
+import com.alterra.miniapp.domain.dto.FavouriteDto;
 import com.alterra.miniapp.domain.dto.PlantDto;
+import com.alterra.miniapp.domain.dto.UserDto;
 import com.alterra.miniapp.repository.PlantRepository;
 import com.alterra.miniapp.util.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
+@Slf4j
 public class PlantService {
     @Autowired
     PlantRepository plantRepository;
@@ -117,5 +120,60 @@ public class PlantService {
                 .build();
 
         return Response.build(Response.update("plant"), plantDto, null, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<Object> getPlantsDetail(){
+        List<Plant> daoList = plantRepository.findAll();
+        List<PlantDto> dtoList = new ArrayList<>();
+
+        daoList.forEach(plant -> {
+            PlantDto plantDto = PlantDto.builder()
+                    .id(plant.getId())
+                    .name(plant.getName())
+                    .speciesName(plant.getSpeciesName())
+                    .content(plant.getContent())
+                    .createdAt(plant.getCreatedAt())
+                    .updatedAt(plant.getUpdatedAt())
+                    .build();
+
+            List<CommentDto> commentDtos = new ArrayList<>();
+            plant.getComments().forEach(comment -> {
+//                log.info(comment.getText());
+                CommentDto commentDto = CommentDto.builder()
+                        .createdAt(comment.getCreatedAt())
+                        .id(comment.getId())
+                        .text(comment.getText())
+                        .user(UserDto.builder()
+                                .id(comment.getUser().getId())
+                                .name(comment.getUser().getName())
+                                .username(comment.getUser().getUsername())
+                                .build())
+                        .build();
+                commentDtos.add(commentDto);
+            });
+
+            plantDto.setComments(commentDtos);
+
+            Set<FavouriteDto> favouriteDtos = new HashSet<>();
+            plant.getFavourites().forEach(favourite -> {
+//                log.info(favourite.getId().toString());
+                FavouriteDto favouriteDto = FavouriteDto.builder()
+                        .id(favourite.getId())
+                        .user(UserDto.builder()
+                                .id(favourite.getUser().getId())
+                                .name(favourite.getUser().getName())
+                                .username(favourite.getUser().getUsername())
+                                .build())
+                        .build();
+
+                favouriteDtos.add(favouriteDto);
+            });
+
+            plantDto.setFavourites(favouriteDtos);
+            plantDto.setTotalFavourite(plant.getFavourites().size());
+            dtoList.add(plantDto);
+        });
+
+        return Response.build(Response.get("plants"), dtoList, null, HttpStatus.OK);
     }
 }

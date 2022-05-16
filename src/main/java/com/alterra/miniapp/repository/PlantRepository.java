@@ -9,6 +9,9 @@ import java.util.List;
 
 @Repository
 public interface PlantRepository extends JpaRepository<Plant, Long> {
+    @Query("SELECT p FROM Plant p ORDER BY p.createdAt DESC")
+    public List<Plant> findAllSorted();
+
     @Query("SELECT p FROM Plant p WHERE p.name LIKE %?1%"
             + " OR p.content LIKE %?1%"
             + " ORDER BY p.createdAt DESC")

@@ -13,4 +13,7 @@ public interface CollectionRepository extends JpaRepository<Collection, Long> {
     @Query("SELECT c FROM Collection c WHERE c.user.id=?1"
             + " ORDER BY c.createdAt DESC")
     public List<Collection> findByUserId(Long id);
+
+    @Query("SELECT c FROM Collection c WHERE c.user.id=?1 AND c.plant.id=?2")
+    public List<Collection> findByUserIdPlantId(Long userId, Long plantId);
 }

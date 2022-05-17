@@ -37,9 +37,13 @@ public class CollectionService {
         String username = userDetails.getUsername();
         Optional<User> user = userRepository.findByUsername(username);
         Optional<Plant> plant = plantRepository.findById(plantId);
-
         if(plant.isEmpty()){
             return Response.build("plant not found", null, null, HttpStatus.BAD_REQUEST);
+        }
+
+        List<Collection> collections = collectionRepository.findByUserIdPlantId(user.get().getId(), plantId);
+        if(!collections.isEmpty()){
+            return Response.build("plant already collected", null, null, HttpStatus.BAD_REQUEST);
         }
 
         Collection collection = Collection.builder()

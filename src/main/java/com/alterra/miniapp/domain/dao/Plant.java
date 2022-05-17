@@ -39,11 +39,11 @@ public class Plant extends BaseUpdatedAt {
     @Column
     private String content;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+//    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "plant", targetEntity = Comment.class, cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @LazyCollection(LazyCollectionOption.FALSE)
+//    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "plant", targetEntity = Favourite.class, cascade = CascadeType.ALL)
     private List<Favourite> favourites;
 }

@@ -32,7 +32,7 @@ public class PlantService {
     FavouriteRepository favouriteRepository;
 
     public ResponseEntity<Object> getAllPlants(){
-        List<Plant> daoList = plantRepository.findAll();
+        List<Plant> daoList = plantRepository.findAllSorted();
         List<PlantDto> dtoList = new ArrayList<>();
 
         for(Plant dao:daoList){
@@ -133,7 +133,7 @@ public class PlantService {
     }
 
     public ResponseEntity<Object> getPlantsDetail(){
-        List<Plant> daoList = plantRepository.findAll();
+        List<Plant> daoList = plantRepository.findAllSorted();
         List<PlantDto> dtoList = new ArrayList<>();
 
         daoList.forEach(plant -> {
@@ -146,9 +146,12 @@ public class PlantService {
                     .updatedAt(plant.getUpdatedAt())
                     .build();
 
+            List<Comment> comments = commentRepository.searchByPlantId(plant.getId());
             List<CommentDto> commentDtos = new ArrayList<>();
-            plant.getComments().forEach(comment -> {
-//                log.info(comment.getText());
+            log.info("plant id = {}", plant.getId().toString());
+
+            comments.forEach(comment -> {
+                log.info("comment id = {}", comment.getId().toString());
                 CommentDto commentDto = CommentDto.builder()
                         .createdAt(comment.getCreatedAt())
                         .id(comment.getId())
@@ -164,9 +167,10 @@ public class PlantService {
 
             plantDto.setComments(commentDtos);
 
+            Set<Favourite> favourites = favouriteRepository.searchByPlantId(plant.getId());
             Set<FavouriteDto> favouriteDtos = new HashSet<>();
-            plant.getFavourites().forEach(favourite -> {
-//                log.info(favourite.getId().toString());
+
+            favourites.forEach(favourite -> {
                 FavouriteDto favouriteDto = FavouriteDto.builder()
                         .id(favourite.getId())
                         .user(UserDto.builder()

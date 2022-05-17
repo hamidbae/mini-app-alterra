@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Temporal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleService {
@@ -19,6 +20,15 @@ public class RoleService {
     RoleRepository roleRepository;
 
     public ResponseEntity<Object> createRoles(){
+        Optional<Role> adminRole = roleRepository.findByName(ERole.ADMIN);
+        Optional<Role> userRole = roleRepository.findByName(ERole.USER);
+        if(!adminRole.isEmpty()){
+            return Response.build(Response.exist("roles", "name", "admin"), null, null, HttpStatus.BAD_REQUEST);
+        }
+        if(!userRole.isEmpty()){
+            return Response.build(Response.exist("roles", "name", "user"), null, null, HttpStatus.BAD_REQUEST);
+        }
+
         roleRepository.save(Role.builder().name(ERole.USER).build());
         roleRepository.save(Role.builder().name(ERole.ADMIN).build());
 

@@ -43,7 +43,7 @@ public class CollectionService {
 
         List<Collection> collections = collectionRepository.findByUserIdPlantId(user.get().getId(), plantId);
         if(!collections.isEmpty()){
-            return Response.build("plant already collected", null, null, HttpStatus.BAD_REQUEST);
+            return Response.build("plant already in collections", null, null, HttpStatus.BAD_REQUEST);
         }
 
         Collection collection = Collection.builder()

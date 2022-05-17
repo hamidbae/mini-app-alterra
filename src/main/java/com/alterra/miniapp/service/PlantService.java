@@ -148,10 +148,10 @@ public class PlantService {
 
             List<Comment> comments = commentRepository.searchByPlantId(plant.getId());
             List<CommentDto> commentDtos = new ArrayList<>();
-            log.info("plant id = {}", plant.getId().toString());
+//            log.info("plant id = {}", plant.getId().toString());
 
             comments.forEach(comment -> {
-                log.info("comment id = {}", comment.getId().toString());
+//                log.info("comment id = {}", comment.getId().toString());
                 CommentDto commentDto = CommentDto.builder()
                         .createdAt(comment.getCreatedAt())
                         .id(comment.getId())
@@ -184,7 +184,7 @@ public class PlantService {
             });
 
             plantDto.setFavourites(favouriteDtos);
-            plantDto.setTotalFavourite(plant.getFavourites().size());
+            plantDto.setTotalFavourite(favouriteDtos.size());
             dtoList.add(plantDto);
         });
 
@@ -243,7 +243,7 @@ public class PlantService {
             });
 
             plantDto.setFavourites(favouriteDtos);
-            plantDto.setTotalFavourite(plant.getFavourites().size());
+            plantDto.setTotalFavourite(favouriteDtos.size());
             dtoList.add(plantDto);
         });
 

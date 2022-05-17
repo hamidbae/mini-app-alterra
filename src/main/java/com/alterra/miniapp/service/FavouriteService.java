@@ -1,9 +1,6 @@
 package com.alterra.miniapp.service;
 
-import com.alterra.miniapp.domain.dao.Comment;
-import com.alterra.miniapp.domain.dao.Favourite;
-import com.alterra.miniapp.domain.dao.Plant;
-import com.alterra.miniapp.domain.dao.User;
+import com.alterra.miniapp.domain.dao.*;
 import com.alterra.miniapp.domain.dto.CommentDto;
 import com.alterra.miniapp.domain.dto.FavouriteDto;
 import com.alterra.miniapp.domain.dto.PlantDto;
@@ -19,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,9 +35,13 @@ public class FavouriteService {
         String username = userDetails.getUsername();
         Optional<User> user = userRepository.findByUsername(username);
         Optional<Plant> plant = plantRepository.findById(plantId);
-
         if(plant.isEmpty()){
             return Response.build("plant not found", null, null, HttpStatus.BAD_REQUEST);
+        }
+
+        List<Favourite> favourites = favouriteRepository.findByUserIdPlantId(user.get().getId(), plantId);
+        if(!favourites.isEmpty()){
+            return Response.build("plant already in favourites", null, null, HttpStatus.BAD_REQUEST);
         }
 
         Favourite favourite = Favourite.builder()

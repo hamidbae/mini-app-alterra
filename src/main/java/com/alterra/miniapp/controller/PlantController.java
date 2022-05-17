@@ -43,4 +43,14 @@ public class PlantController {
     public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody PlantDto plantDto) {
         return plantService.updatePlant(id, plantDto);
     }
+
+    @GetMapping("/plants-detail")
+    public ResponseEntity<Object> getAllDetail() {
+        return plantService.getPlantsDetail();
+    }
+
+    @GetMapping("/plants/search/{keyword}")
+    public ResponseEntity<Object> getAllDetail(@PathVariable String keyword) {
+        return plantService.searchPlants(keyword);
+    }
 }

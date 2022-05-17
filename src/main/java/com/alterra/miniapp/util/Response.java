@@ -52,7 +52,7 @@ public class Response {
         return String.format("%s not found", entity);
     }
 
-    public static String exist(String entity, String field, String record){
-        return String.format("%s with %s %s exist", entity, field, record);
+    public static String exist(String entity, String field, String data){
+        return String.format("%s with %s %s exist", entity, field, data);
     }
 }

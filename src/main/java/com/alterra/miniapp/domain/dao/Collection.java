@@ -1,6 +1,8 @@
 package com.alterra.miniapp.domain.dao;
 
+import com.alterra.miniapp.domain.common.BaseCreatedAt;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -9,11 +11,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Builder
+@SuperBuilder
 @Table(name = "collections")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Collection {
+public class Collection extends BaseCreatedAt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

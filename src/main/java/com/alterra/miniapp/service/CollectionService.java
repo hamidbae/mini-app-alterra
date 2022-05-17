@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,9 +37,13 @@ public class CollectionService {
         String username = userDetails.getUsername();
         Optional<User> user = userRepository.findByUsername(username);
         Optional<Plant> plant = plantRepository.findById(plantId);
-
         if(plant.isEmpty()){
             return Response.build("plant not found", null, null, HttpStatus.BAD_REQUEST);
+        }
+
+        List<Collection> collections = collectionRepository.findByUserIdPlantId(user.get().getId(), plantId);
+        if(!collections.isEmpty()){
+            return Response.build("plant already in collections", null, null, HttpStatus.BAD_REQUEST);
         }
 
         Collection collection = Collection.builder()
@@ -49,10 +55,7 @@ public class CollectionService {
 
         CollectionDto collectionDto = CollectionDto.builder()
                 .id(collection.getId())
-                .user(UserDto.builder()
-                        .id(collection.getUser().getId())
-                        .username(collection.getUser().getUsername())
-                        .build())
+                .createdAt(collection.getCreatedAt())
                 .plant(PlantDto.builder()
                         .id(collection.getPlant().getId())
                         .name(collection.getPlant().getName())
@@ -80,6 +83,30 @@ public class CollectionService {
         collectionRepository.deleteById(id);
 
         return Response.build(Response.delete("collection"), null, null, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<Object> getUserCollection(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        Optional<User> user = userRepository.findByUsername(username);
+        List<Collection> collections = collectionRepository.findByUserId(user.get().getId());
+        List<CollectionDto> collectionDtos = new ArrayList<>();
+
+        collections.forEach(collection -> {
+            CollectionDto collectionDto = CollectionDto.builder()
+                    .id(collection.getId())
+                    .plant(PlantDto.builder()
+                            .id(collection.getPlant().getId())
+                            .name(collection.getPlant().getName())
+                            .speciesName(collection.getPlant().getSpeciesName())
+                            .build())
+                    .createdAt(collection.getCreatedAt())
+                    .build();
+
+            collectionDtos.add(collectionDto);
+        });
+
+        return Response.build(Response.get("collections"), collectionDtos, null, HttpStatus.OK);
     }
 
 }

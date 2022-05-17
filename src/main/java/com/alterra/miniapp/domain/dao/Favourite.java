@@ -1,5 +1,6 @@
 package com.alterra.miniapp.domain.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -23,6 +24,7 @@ public class Favourite {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "plant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -26,4 +26,10 @@ public class CollectionController {
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         return collectionService.deleteCollection(id);
     }
+
+    @GetMapping("/plants/collections")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<Object> getCollections() {
+        return collectionService.getUserCollection();
+    }
 }
